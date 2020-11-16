@@ -6,7 +6,11 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.BoxLayout;
@@ -70,7 +74,13 @@ public class BadIOGUI {
         });
         read.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
-                System.out.println("Read button pressed");
+                try {
+                    for (final String line : new ArrayList<String>(Files.readAllLines(Path.of(PATH)))) {
+                        System.out.println(line);
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
     }
