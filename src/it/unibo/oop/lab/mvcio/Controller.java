@@ -64,9 +64,11 @@ public class Controller {
      * 
      * @param text Content to be written on the current file
      */
-    public void writeOnFile(final String text) throws IOException {
-        final PrintStream ps = new PrintStream(currentFile);
-        ps.print(text);
-        ps.close();
+    public void writeOnFile(final String text) {
+        try (PrintStream ps = new PrintStream(currentFile)) {
+            ps.print(text);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

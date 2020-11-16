@@ -16,10 +16,10 @@ import javax.swing.JTextArea;
  * A very simple program using a graphical interface.
  * 
  */
-public final class SimpleGUI {
+public class SimpleGUI {
 
     private final JFrame frame = new JFrame();
-
+    private final Controller c;
     /*
      * Once the Controller is done, implement this class in such a way that:
      * 
@@ -43,7 +43,8 @@ public final class SimpleGUI {
     /**
      * builds a new {@link SimpleGUI}.
      */
-    public SimpleGUI() {
+    public SimpleGUI(final Controller c) {
+        this.c = c;
         /*
          * Make the frame half the resolution of the screen. This very method is
          * enough for a single screen setup. In case of multiple monitors, the
@@ -77,12 +78,7 @@ public final class SimpleGUI {
          */
         save.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
-                final Controller c = new Controller();
-                try {
-                    c.writeOnFile(textArea.getText());
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+                SimpleGUI.this.c.writeOnFile(textArea.getText());
             }
         });
     }
@@ -91,7 +87,7 @@ public final class SimpleGUI {
      * @param args arguments passed via command line
      */
     public static void main(final String[] args) {
-        final SimpleGUI gui = new SimpleGUI();
+        final SimpleGUI gui = new SimpleGUI(new Controller());
         gui.frame.setVisible(true);
     }
 
