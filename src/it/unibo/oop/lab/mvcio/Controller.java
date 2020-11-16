@@ -1,10 +1,15 @@
 package it.unibo.oop.lab.mvcio;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+
 /**
  * 
  */
 public class Controller {
-
+    private static final String PATH = System.getProperty("user.home") 
+            + System.getProperty("file.separator") + "output.txt";
     /*
      * This class must implement a simple controller responsible of I/O access. It
      * considers a single file at a time, and it is able to serialize objects in it.
@@ -27,5 +32,41 @@ public class Controller {
      * System.getProperty("file.separator"). The combined use of those methods leads
      * to a software that runs correctly on every platform.
      */
-
+    private File currentFile;
+    /**
+     *  Construct a new Controller with default output file (output.txt).
+     */
+    public Controller() {
+        currentFile = new File(PATH);
+    }
+    /**
+     * Add a file as current file.
+     * @param f The file to be set as current file
+     */
+    public void setCurrentFile(final File f) {
+        this.currentFile = f;
+    } 
+    /**
+     * 
+     * @return the current file
+     */
+    public File getCurrentFile() {
+        return this.currentFile;
+    }
+    /**
+     * 
+     * @return The file path
+     */
+    public String getCurrentFilePath() {
+        return this.currentFile.getPath();
+    }
+    /**
+     * 
+     * @param text Content to be written on the current file
+     */
+    public void writeOnFile(final String text) throws IOException {
+        final PrintStream ps = new PrintStream(currentFile);
+        ps.print(text);
+        ps.close();
+    }
 }
