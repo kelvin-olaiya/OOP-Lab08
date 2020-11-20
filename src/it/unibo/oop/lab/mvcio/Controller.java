@@ -3,6 +3,8 @@ package it.unibo.oop.lab.mvcio;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * 
@@ -64,11 +66,23 @@ public class Controller {
      * 
      * @param text Content to be written on the current file
      */
-    public void writeOnFile(final String text) {
+    public void writeFile(final String text) {
         try (PrintStream ps = new PrintStream(currentFile)) {
             ps.print(text);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    /**
+     * 
+     * @return Text read from currentFile
+     */
+    public String readFile() {
+        try {
+            return Files.readString(Path.of(currentFile.getPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
