@@ -78,7 +78,7 @@ public class SimpleGUI {
          */
         save.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
-                SimpleGUI.this.c.writeOnFile(textArea.getText());
+                SimpleGUI.this.c.writeFile(textArea.getText());
             }
         });
     }
