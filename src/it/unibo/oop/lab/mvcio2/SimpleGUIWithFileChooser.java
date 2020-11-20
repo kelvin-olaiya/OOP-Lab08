@@ -45,7 +45,9 @@ public final class SimpleGUIWithFileChooser {
      */
     private final JFrame frame = new JFrame();
     private final Controller c;
-    
+    /*
+     * Constructs GUI
+     */
     public SimpleGUIWithFileChooser(final Controller c) {
         this.c = c;
         /*
@@ -90,7 +92,7 @@ public final class SimpleGUIWithFileChooser {
          */
         save.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
-                c.writeOnFile(textArea.getText());
+                c.writeFile(textArea.getText());
             }
         });
         browse.addActionListener(new ActionListener() {
@@ -101,6 +103,7 @@ public final class SimpleGUIWithFileChooser {
                 case JFileChooser.APPROVE_OPTION:
                     c.setCurrentFile(fc.getSelectedFile());
                     filePath.setText(c.getCurrentFilePath());
+                    textArea.setText(c.readFile());
                     break;
                 case JFileChooser.CANCEL_OPTION:
                     break;
@@ -113,10 +116,11 @@ public final class SimpleGUIWithFileChooser {
             }
         });
     }
-    
+    /*
+     * Initialize GUI
+     */
     public static void main(final String[] args) {
         final SimpleGUIWithFileChooser gui = new SimpleGUIWithFileChooser(new Controller());
         gui.frame.setVisible(true);
     }
-
 }
