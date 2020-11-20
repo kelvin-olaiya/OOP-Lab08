@@ -52,5 +52,4 @@ public final class DrawNumberImpl implements DrawNumber {
         }
         return DrawResult.YOU_WON;
     }
-
 }

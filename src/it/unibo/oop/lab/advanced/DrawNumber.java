@@ -21,4 +21,5 @@ public interface DrawNumber {
      *             in case the game is lost
      */
     DrawResult attempt(int n) throws AttemptsLimitReachedException;
+    
 }
