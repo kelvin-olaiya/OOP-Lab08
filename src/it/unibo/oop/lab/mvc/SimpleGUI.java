@@ -1,9 +1,20 @@
 package it.unibo.oop.lab.mvc;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  * A very simple program using a graphical interface.
@@ -12,6 +23,7 @@ import javax.swing.JFrame;
 public final class SimpleGUI {
 
     private final JFrame frame = new JFrame();
+    private final Controller c;
 
     /*
      * Once the Controller is done, implement this class in such a way that:
@@ -36,9 +48,10 @@ public final class SimpleGUI {
 
     /**
      * builds a new {@link SimpleGUI}.
+     * @param c
      */
-    public SimpleGUI() {
-
+    public SimpleGUI(final Controller c) {
+        this.c = c;
         /*
          * Make the frame half the resolution of the screen. This very method is
          * enough for a single screen setup. In case of multiple monitors, the
@@ -53,13 +66,51 @@ public final class SimpleGUI {
         final int sw = (int) screen.getWidth();
         final int sh = (int) screen.getHeight();
         frame.setSize(sw / 2, sh / 2);
-
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         /*
          * Instead of appearing at (0,0), upper left corner of the screen, this
          * flag makes the OS window manager take care of the default positioning
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
+        /*
+         * GUI construction
+         */
+        final JPanel canvas = new JPanel();
+        canvas.setLayout(new BorderLayout());
+        final JTextField text = new JTextField();
+        canvas.add(text, BorderLayout.NORTH);
+        final JTextArea textArea = new JTextArea();
+        canvas.add(textArea, BorderLayout.CENTER);
+        final JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        final JButton print = new JButton("Print");
+        buttonPanel.add(print);
+        final JButton showHistory = new JButton("Show history");
+        buttonPanel.add(showHistory);
+        canvas.add(buttonPanel, BorderLayout.SOUTH);
+        /*
+         * Event Handlers
+         */
+        print.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+                c.setNextString(text.getText());
+                c.printString();
+            }
+        });
+        showHistory.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                textArea.setText(c.getStringHistory().toString());
+            }
+        });
+        /*
+         * 
+         */
+        frame.setContentPane(canvas);
+    }
+    
+    public static void main(final String[] args) {
+        final SimpleGUI gui = new SimpleGUI(new ControllerImpl());
+        gui.frame.setVisible(true);
     }
 
 }
